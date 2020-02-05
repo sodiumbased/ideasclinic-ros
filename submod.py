@@ -20,6 +20,9 @@ class ImageSubscriber:
         except CvBridgeError as e:
             print e
 
+    def get_image(self):
+        return CvBridge().imgmsg_to_cv2(self.latest_img)
+
     def __init__(self, topic):
         self.topic = topic
         rospy.Subscriber(topic, Image, callback=self.callback_)
