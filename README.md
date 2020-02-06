@@ -1,14 +1,16 @@
 # The Incomplete Guide to ROS and Orbbec Astra Cameras
 This guide contains instructions for installing and using the Rototic Operating System (ROS) and the Astra camera driver on Ubuntu 18.04 LTS. Similar packages may be available on other package manager repositories for different Linux distributions.
 
+In order to address the difference between bash commands and source code examples, a `$` at the beginning of a line is used to indicate that the following is meant to be entered to the command line. If you wish to copy the commands, remember to exclude the `$`.
+
 ## Installation and Setup
 
 ### Cloning This Guide
 Please enter the following on the command line, which can be invoked by pressing `Ctrl` + `Alt` + `T`:
 ```bash
-sudo apt update && sudo apt install git
-git clone https://github.com/sodiumbased/me780.git
-cd me780
+$ sudo apt update && sudo apt install git
+$ git clone https://github.com/sodiumbased/me780.git
+$ cd me780
 ```
 Explanation:
 
@@ -17,7 +19,7 @@ These commands install git on your machine and download this guide
 ### ROS Installation
 Please run the following on the command line:
 ```bash
-./install.sh
+$ ./install.sh
 ```
 Explanation:
 
@@ -26,7 +28,7 @@ This script contains instructions for the package manager `apt-get` which update
 ### Catkin Workspace and Package Setup
 Please run the following on the command line:
 ```bash
-source setup.sh
+$ source setup.sh
 ```
 Explanation:
 
@@ -48,7 +50,12 @@ The ROS implementation for Python can be imported like so:
 ```python
 import rospy
 ```
-I have written a simple subscriber class that listens for images from a given camera topic. Feel free to inspect the source. To use it, make sure the script you are writing is in `~/ws/src/pkg/src/` then import the class:
+To properly utilize the ROS graph, you need to write a script for each node to specify their functionalities. Like mentioned earlier, each node can subscribe, publish to different topics, or both:
+```python
+node = rospy.init_node('name_of_the_node')
+sub = rospy.Subscriber('/namespace/topic_name', Msg, callback=foo) # where 'Msg' is an ROS message class and 'foo' is a function that takes in one argument as an ROS message object
+```
+I have written a simple subscriber class that listens for images from a given camera topic. Feel free to inspect the source. To use it, make sure the script you are writing is in `~/ws/src/pkg/src/` then import:
 ```python
 from submod import *
 ```
@@ -67,4 +74,23 @@ obj.display_image()
 To obtain an OpenCV object from the camera which can be used for further `cv2` processing:
 ```python
 obj.get_image()
+```
+
+### Running ROS
+To start an empty ROS core (keep in mind that only one instance is allowed at a time):
+```bash
+$ roscore
+```
+To run the core service with the cameras enabled:
+```bash
+$ roslaunch astra_camera astrapro.launch
+```
+To run a node, first make sure that Python script is executable:
+```bash
+$ cd ~/ws/src/pkg/src
+$ chmod +x [NAME_OF_FILE] # where NAME_OF_FILE is like 'listener.py', for example
+```
+Or in the case of C++, make sure the `CMakeLists.txt` of the package is properly modified and that the workspace is rebuilt using `catkin_make`. To run a node in an existing core:
+```bash
+$ rosrun [PKG_NAME] [NODE_NAME] # where PKG_NAME is the name of the package and NODE_NAME is the name of the file that the node is written in
 ```
