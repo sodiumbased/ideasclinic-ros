@@ -13,7 +13,7 @@ sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31
 sudo apt update
 
 # Installs the ROS collection
-sudo apt install ros-melodic-desktop catkin
+yes | sudo apt install ros-melodic-desktop catkin
 
 # Initializes rosdep which handles dependencies used in ROS projects
 sudo rosdep init 
@@ -24,7 +24,7 @@ echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
 . ~/.bashrc 
 
 # Configures the correct Python packages
-sudo apt upgrade python python3 python-pip python3-pip
-sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential python-catkin-tools
+yes | sudo apt upgrade python python3 python-pip python3-pip
+yes | sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential python-catkin-tools
 sudo pip3 install pip -U
 sudo pip3 install numpy cv2 cv_bridge
