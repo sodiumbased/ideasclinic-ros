@@ -41,7 +41,9 @@ Additionally, this script installs the driver written for the Astra cameras.
 ## Using ROS/Camera
 
 ### Brief Introduction to ROS
-The Robotic Operating System is a collection of Linux packages that enables communication between different components of a system via a graph. Such graphs contain nodes, which can be represented each component, that can interact with each other via topics. Specifically, each node can subscribe and publish to one or more topics where once data has been published to a topic every node that's subscribed get pushed with that data.
+The Robotic Operating System is a collection of Linux packages that enables communication between different components of a system via a graph. Such graphs contain nodes, which can be represented each component, that can interact with each other via topics. Specifically, each node can subscribe and publish to one or more topics where once data has been published to a topic every node that's subscribed get pushed with that data. The following is a graphical representation of the interactions:
+
+![Block diagram of ROS on the Jetson Nano](https://github.com/sodiumbased/me780/blob/master/rosflowchart.png)
 
 More details are available at [http://wiki.ros.org/ROS/Tutorials](http://wiki.ros.org/ROS/Tutorials "Official ROS Tutorials")
 

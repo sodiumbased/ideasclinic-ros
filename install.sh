@@ -25,6 +25,6 @@ echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
 
 # Configures the correct Python packages
 sudo apt upgrade python python3 python-pip python3-pip
-sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential
+sudo apt install python-rosinstall python-rosinstall-generator python-wstool build-essential python-catkin-tools
 sudo pip3 install pip -U
 sudo pip3 install numpy cv2 cv_bridge
