@@ -41,7 +41,7 @@ Additionally, this script installs the driver written for the Astra cameras.
 ## Using ROS/Camera
 
 ### Brief Introduction to ROS
-The Robotic Operating System is a collection of Linux packages that enables communication between different components of a system via a graph. Such graphs contain nodes, which can be represented each component, that can interact with each other via topics. Specifically, each node can subscribe and publish to one or more topics where once data has been published to a topic every node that's subscribed get pushed with that data. The following is a graphical representation of the interactions:
+The Robotic Operating System is a collection of Linux packages that enables communication between different components of a system. Such graphs contain nodes, which can represent each component, that can interact with each other via topics. The network formed by these nodes and topics is known as a graph. Specifically, each node can subscribe and publish to one or more topics where once data has been published to a topic every node that's subscribed get pushed with that data. The following is a graphical representation of the interactions:
 
 ![Block diagram of ROS on the Jetson Nano](https://github.com/sodiumbased/me780/blob/master/rosflowchart.png)
 
@@ -54,8 +54,12 @@ import rospy
 ```
 To properly utilize the ROS graph, you need to write a script for each node to specify their functionalities. Like mentioned earlier, each node can subscribe, publish to different topics, or both:
 ```python
-node = rospy.init_node('name_of_the_node')
-sub = rospy.Subscriber('/namespace/topic_name', Msg, callback=foo) # where 'Msg' is an ROS message class and 'foo' is a function that takes in one argument as an ROS message object
+# creates a node on the ROS graph
+ode = rospy.init_node('name_of_the_node')
+
+# subscribes the node to a topic where 'Msg' is an ROS message class and 'foo'
+# is a function that takes in one argument as an ROS message object
+sub = rospy.Subscriber('/namespace/topic_name', Msg, callback=foo)
 ```
 I have written a simple subscriber class that listens for images from a given camera topic. Feel free to inspect the source. To use it, make sure the script you are writing is in `~/ws/src/pkg/src/` then import:
 ```python
@@ -67,7 +71,7 @@ obj = ImageSubscriber('/camera/rgb/image_raw')
 ```
 The parameter can be changed to other image topics the camera publishes. To see a list of topics available, type the following in the command line:
 ```bash
-rostopic list
+$ rostopic list
 ```
 To show an image from the camera, continuing from the previous example:
 ```python
@@ -79,7 +83,7 @@ obj.get_image()
 ```
 
 ### Running ROS
-To start an empty ROS core (keep in mind that only one instance is allowed at a time):
+An ROS graph performs its tasks when the nodes are running on top of the ROS core service. The core service may be initialized on its own or it can be launched with an existing configuration. To start an empty ROS core (keep in mind that only one instance is allowed at a time):
 ```bash
 $ roscore
 ```
@@ -87,7 +91,7 @@ To run the core service with the cameras enabled:
 ```bash
 $ roslaunch astra_camera astrapro.launch
 ```
-To run a node, first make sure that Python script is executable:
+To run a node, first make sure that the Python script is executable:
 ```bash
 $ cd ~/ws/src/pkg/src
 $ chmod +x [NAME_OF_FILE] # where NAME_OF_FILE is like 'listener.py', for example
